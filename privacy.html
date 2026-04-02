@@ -13,15 +13,17 @@
 </head>
 <body>
 <h1>AngleBreaker Privacy Policy</h1>
-<p class="date">Last updated: March 23, 2026</p>
+<p class="date">Last updated: April 2, 2026</p>
 
 <h2>Overview</h2>
-<p>AngleBreaker ("the App") is a basketball shot analysis tool. We respect your privacy and are committed to protecting your data.</p>
+<p>AngleBreaker ("the App") is a basketball shooting form analysis tool that uses on-device pose detection to help you improve your shot. We respect your privacy and are committed to protecting your data.</p>
 
 <h2>Data We Collect</h2>
-<p><strong>Camera and Video Frames:</strong> The App processes camera frames and video files on your device to detect basketball shots. When performing VLM shot analysis, downscaled frame grids are sent to Google's Gemini API for angle refinement. These frames are processed as temporary API requests and are not stored on any server.</p>
-<p><strong>Shot Analysis Data:</strong> Shot angles, grades, session scores, and daily streak data are stored locally on your device using UserDefaults. This data never leaves your device.</p>
+<p><strong>Camera and Video Frames:</strong> The App processes camera frames and video files on your device using Apple's Vision framework (body pose detection). No camera frames or video data are sent to any external server.</p>
+<p><strong>Form Analysis Data:</strong> Shot form scores, session history, and daily streak data are stored locally on your device using UserDefaults. This data never leaves your device.</p>
+<p><strong>AI Coaching (Google Gemini API):</strong> When a practice session ends, anonymized motion data (joint angles and timing information) is sent to Google's Gemini API to generate personalized coaching feedback. No camera images, video frames, or personally identifiable information are included in these requests. Google's data practices are governed by <a href="https://ai.google.dev/terms">Google's Generative AI Terms</a>.</p>
 <p><strong>Purchase Information:</strong> If you subscribe to AngleBreaker Pro, Apple handles all payment processing through StoreKit. We do not have access to your payment information.</p>
+<p><strong>Analytics and Crash Reports:</strong> We use Firebase Analytics and Firebase Crashlytics to collect anonymous usage data and crash reports. This helps us improve app stability and understand which features are most useful. These reports do not intentionally include personally identifiable information. Firebase's data practices are governed by <a href="https://firebase.google.com/support/privacy">Google's Privacy Policy</a>.</p>
 
 <h2>Data We Do NOT Collect</h2>
 <ul>
@@ -29,16 +31,20 @@
   <li>No account creation or login required</li>
   <li>No location data</li>
   <li>No advertising identifiers</li>
-  <li>No analytics or tracking SDKs</li>
+  <li>No camera frames or video sent to external servers (only anonymized angle data for AI coaching)</li>
   <li>No data shared with third parties for advertising purposes</li>
 </ul>
 
+<h2>On-Device Processing</h2>
+<p>All pose detection and form analysis is performed entirely on your device using Apple's Vision framework. Your camera feed and video files are never transmitted over the internet. After a session ends, only anonymized angle measurements are sent to the AI coaching service (Google Gemini) to generate coaching feedback.</p>
+
 <h2>Third-Party Services</h2>
-<p><strong>Google Gemini API:</strong> Downscaled camera frame grids (320px width) are sent to Google's Gemini API for shot timing analysis. No personally identifiable information is included in these requests. Google processes these as ephemeral API calls per their <a href="https://ai.google.dev/gemini-api/terms">API Terms of Service</a>.</p>
+<p><strong>Firebase Analytics &amp; Crashlytics:</strong> We collect anonymous usage events (e.g., session start/end, feature usage) and crash reports to improve the App. No personally identifiable information is included. See <a href="https://firebase.google.com/support/privacy">Firebase Privacy</a>.</p>
+<p><strong>Google Gemini API:</strong> After each practice session, anonymized motion data (joint angles and timestamps) is sent to Google's Gemini API to generate AI coaching commentary. No images, video, or personal data are transmitted. See <a href="https://ai.google.dev/terms">Google Generative AI Terms</a>.</p>
 <p><strong>Apple StoreKit:</strong> Subscription purchases are processed entirely by Apple. Apple's privacy policy governs payment data.</p>
 
 <h2>Data Storage</h2>
-<p>All app data (shot history, session scores, streak, preferences) is stored locally on your device using UserDefaults. No cloud sync, backup, or server-side storage is performed by the App.</p>
+<p>All app data (shot history, session records, streak, preferences) is stored locally on your device using UserDefaults. No cloud sync or server-side storage of your personal data is performed. Anonymous motion data sent to the Gemini API for coaching is not stored by the App after the coaching response is received.</p>
 
 <h2>Children's Privacy</h2>
 <p>The App does not knowingly collect data from children under 13.</p>
