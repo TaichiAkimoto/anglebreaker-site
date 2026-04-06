@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>フォームコーチ - バスケ&ゴルフ AIフォーム解析</title>
+<meta name="description" content="バスケとゴルフのフォームをAIがリアルタイム解析。スケルトン追跡、プロレベルのコーチング、詳細な統計 — iPhoneだけで。">
+<meta name="theme-color" content="#0A0A0A">
+<meta property="og:title" content="フォームコーチ - 「なんとなく」を終わりにしよう">
+<meta property="og:description" content="バスケとゴルフのフォームをAIがリアルタイム解析。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://taichiakimoto.github.io/anglebreaker-site/">
+<link rel="canonical" href="https://taichiakimoto.github.io/anglebreaker-site/">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0A0A0A;--bg2:#111;--bg3:#1A1A1A;
+  --text:#fff;--text2:#aaa;--text3:#666;
+  --orange:#FF9500;--orange-dim:#CC7700;
+  --green:#30D158;--green-dim:#28A745;
+  --radius:12px;--radius-sm:8px;
+  --max-w:1120px;
+}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  font-family:-apple-system,'Helvetica Neue','Noto Sans JP',sans-serif;
+  background:var(--bg);color:var(--text);
+  line-height:1.6;overflow-x:hidden;
+}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;height:auto}
+
+/* NAV */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  background:rgba(10,10,10,.85);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+.nav-inner{
+  max-width:var(--max-w);margin:0 auto;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 24px;
+}
+.nav-logo{font-size:18px;font-weight:700;letter-spacing:-.02em}
+.nav-logo span{color:var(--orange)}
+.nav-links{display:flex;gap:24px;font-size:14px;color:var(--text2)}
+.nav-links a:hover{color:var(--text)}
+.nav-cta{
+  background:var(--orange);color:#000;font-weight:600;
+  padding:8px 18px;border-radius:20px;font-size:13px;
+  transition:background .2s;
+}
+.nav-cta:hover{background:var(--orange-dim)}
+
+/* HERO */
+.hero{
+  min-height:100vh;display:flex;align-items:center;justify-content:center;
+  text-align:center;padding:120px 24px 80px;
+  background:
+    radial-gradient(ellipse 60% 50% at 30% 40%,rgba(255,149,0,.06),transparent),
+    radial-gradient(ellipse 50% 50% at 70% 60%,rgba(48,209,88,.04),transparent),
+    var(--bg);
+}
+.hero-inner{max-width:720px}
+.hero-badge{
+  display:inline-block;
+  background:rgba(255,149,0,.12);color:var(--orange);
+  padding:6px 16px;border-radius:20px;font-size:13px;font-weight:600;
+  margin-bottom:28px;letter-spacing:.02em;
+}
+.hero h1{
+  font-size:clamp(36px,7vw,64px);font-weight:800;
+  line-height:1.1;letter-spacing:-.03em;margin-bottom:16px;
+}
+.hero-sub{
+  font-size:clamp(16px,2.5vw,20px);
+  color:var(--text2);margin-bottom:40px;
+}
+.cta-btn{
+  display:inline-flex;align-items:center;gap:10px;
+  background:var(--orange);color:#000;
+  padding:16px 32px;border-radius:14px;
+  font-size:17px;font-weight:700;
+  transition:transform .2s,background .2s;
+}
+.cta-btn:hover{transform:translateY(-2px);background:var(--orange-dim)}
+.cta-btn svg{width:22px;height:22px}
+
+/* SECTION COMMON */
+section{padding:100px 24px}
+.section-inner{max-width:var(--max-w);margin:0 auto}
+.section-label{
+  font-size:13px;font-weight:600;text-transform:uppercase;
+  letter-spacing:.1em;color:var(--orange);margin-bottom:12px;
+}
+.section-title{
+  font-size:clamp(28px,5vw,44px);font-weight:800;
+  line-height:1.15;letter-spacing:-.02em;margin-bottom:20px;
+}
+.section-desc{font-size:17px;color:var(--text2);max-width:600px;margin-bottom:48px}
+
+/* DUAL SPORT */
+.dual{background:var(--bg2)}
+.dual-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:24px;
+}
+.sport-card{
+  border-radius:var(--radius);padding:40px 32px;
+  position:relative;overflow:hidden;
+}
+.sport-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+}
+.sport-bball{background:rgba(255,149,0,.06);border:1px solid rgba(255,149,0,.12)}
+.sport-bball::before{background:var(--orange)}
+.sport-golf{background:rgba(48,209,88,.06);border:1px solid rgba(48,209,88,.12)}
+.sport-golf::before{background:var(--green)}
+.sport-icon{font-size:40px;margin-bottom:16px;display:block}
+.sport-card h3{font-size:22px;font-weight:700;margin-bottom:20px}
+.sport-bball h3{color:var(--orange)}
+.sport-golf h3{color:var(--green)}
+.sport-card ul{list-style:none;display:flex;flex-direction:column;gap:14px}
+.sport-card li{
+  display:flex;align-items:flex-start;gap:10px;
+  font-size:15px;color:var(--text2);line-height:1.5;
+}
+.sport-card li::before{
+  content:'';flex-shrink:0;width:6px;height:6px;
+  border-radius:50%;margin-top:8px;
+}
+.sport-bball li::before{background:var(--orange)}
+.sport-golf li::before{background:var(--green)}
+
+/* HOW IT WORKS */
+.steps-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:32px;
+  counter-reset:step;
+}
+.step{text-align:center;padding:32px 20px}
+.step-num{
+  width:56px;height:56px;border-radius:50%;
+  display:inline-flex;align-items:center;justify-content:center;
+  font-size:22px;font-weight:800;
+  background:rgba(255,149,0,.1);color:var(--orange);
+  margin-bottom:20px;
+}
+.step h3{font-size:18px;font-weight:700;margin-bottom:10px}
+.step p{font-size:15px;color:var(--text2);line-height:1.6}
+.step-icon{
+  display:block;font-size:28px;margin-bottom:8px;
+  filter:grayscale(0);
+}
+
+/* FEATURES GRID */
+.features{background:var(--bg2)}
+.feat-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:20px;
+}
+.feat{
+  background:var(--bg3);border:1px solid rgba(255,255,255,.06);
+  border-radius:var(--radius);padding:28px 24px;
+  transition:border-color .2s;
+}
+.feat:hover{border-color:rgba(255,149,0,.3)}
+.feat-icon{font-size:28px;margin-bottom:14px;display:block}
+.feat h3{font-size:16px;font-weight:700;margin-bottom:8px}
+.feat p{font-size:14px;color:var(--text2);line-height:1.6}
+
+/* TECH */
+.tech-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:24px;
+}
+.tech-card{
+  text-align:center;padding:32px 24px;
+  border:1px solid rgba(255,255,255,.06);
+  border-radius:var(--radius);background:var(--bg2);
+}
+.tech-stat{
+  font-size:clamp(28px,4vw,40px);font-weight:800;
+  background:linear-gradient(135deg,var(--orange),var(--green));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+  margin-bottom:8px;
+}
+.tech-card p{font-size:14px;color:var(--text2);line-height:1.5}
+
+/* PRICING */
+.pricing{background:var(--bg2)}
+.price-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:24px;
+  max-width:760px;margin:0 auto;
+}
+.price-card{
+  border-radius:var(--radius);padding:36px 28px;
+  border:1px solid rgba(255,255,255,.08);background:var(--bg3);
+  position:relative;
+}
+.price-card.pro{
+  border-color:var(--orange);
+  box-shadow:0 0 40px rgba(255,149,0,.08);
+}
+.price-badge{
+  position:absolute;top:-12px;right:20px;
+  background:var(--orange);color:#000;
+  padding:4px 14px;border-radius:12px;
+  font-size:12px;font-weight:700;text-transform:uppercase;
+}
+.price-name{font-size:14px;font-weight:600;color:var(--text2);margin-bottom:8px;text-transform:uppercase;letter-spacing:.08em}
+.price-amount{font-size:36px;font-weight:800;margin-bottom:4px}
+.price-amount span{font-size:16px;font-weight:400;color:var(--text2)}
+.price-period{font-size:13px;color:var(--text3);margin-bottom:24px}
+.price-features{list-style:none;display:flex;flex-direction:column;gap:12px}
+.price-features li{
+  font-size:14px;color:var(--text2);
+  display:flex;align-items:center;gap:8px;
+}
+.price-features li::before{content:'\2713';color:var(--orange);font-weight:700;font-size:14px}
+.price-card.free .price-features li::before{color:var(--text3)}
+.price-cta{
+  display:block;text-align:center;margin-top:28px;
+  padding:14px;border-radius:10px;font-weight:700;font-size:15px;
+  transition:background .2s;
+}
+.price-card.free .price-cta{
+  background:rgba(255,255,255,.06);color:var(--text2);
+}
+.price-card.pro .price-cta{
+  background:var(--orange);color:#000;
+}
+.price-card.pro .price-cta:hover{background:var(--orange-dim)}
+
+/* FOOTER */
+footer{
+  padding:60px 24px 40px;
+  border-top:1px solid rgba(255,255,255,.06);
+  text-align:center;
+}
+.footer-inner{max-width:var(--max-w);margin:0 auto}
+.footer-cta{margin-bottom:32px}
+.footer-links{
+  display:flex;gap:24px;justify-content:center;
+  font-size:14px;color:var(--text3);margin-bottom:24px;
+}
+.footer-links a:hover{color:var(--text2)}
+.footer-copy{font-size:13px;color:var(--text3)}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .nav-links{display:none}
+  .dual-grid{grid-template-columns:1fr}
+  .steps-grid{grid-template-columns:1fr;gap:16px}
+  .feat-grid{grid-template-columns:1fr}
+  .tech-grid{grid-template-columns:1fr}
+  .price-grid{grid-template-columns:1fr;max-width:400px}
+  section{padding:72px 20px}
+  .sport-card{padding:28px 24px}
+}
+@media(min-width:769px) and (max-width:1024px){
+  .feat-grid{grid-template-columns:1fr 1fr}
+}
+
+/* ANIMATIONS */
+.fade-in{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
+.fade-in.visible{opacity:1;transform:translateY(0)}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="nav-logo">フォーム<span>コーチ</span></div>
+    <div class="nav-links">
+      <a href="#sports">スポーツ</a>
+      <a href="#how">使い方</a>
+      <a href="#features">機能</a>
+      <a href="#pricing">料金</a>
+    </div>
+    <a href="#" class="nav-cta">ダウンロード</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <span class="hero-badge">バスケットボール + ゴルフ</span>
+    <h1>「なんとなく」を<br>終わりにしよう。</h1>
+    <p class="hero-sub">バスケとゴルフのフォームをAIがリアルタイム解析</p>
+    <a href="#" class="cta-btn">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+      App Storeからダウンロード
+    </a>
+  </div>
+</section>
+
+<!-- DUAL SPORT -->
+<section class="dual" id="sports">
+  <div class="section-inner">
+    <p class="section-label">2つのスポーツ、1つのコーチ</p>
+    <h2 class="section-title">あなたの競技を選ぼう</h2>
+    <p class="section-desc">スリーポイントもバックスイングも、フォームコーチが肉眼では見えない角度を可視化します。</p>
+    <div class="dual-grid">
+      <div class="sport-card sport-bball fade-in">
+        <span class="sport-icon">&#127936;</span>
+        <h3>シュートフォーム解析</h3>
+        <ul>
+          <li>肘・膝・肩の角度をリアルタイムで追跡</li>
+          <li>シュートフェーズ検出：セットポイント、リリース、フォロースルー</li>
+          <li>Curry、LeBronなどプロ選手のフォームと比較</li>
+        </ul>
+      </div>
+      <div class="sport-card sport-golf fade-in">
+        <span class="sport-icon">&#9971;</span>
+        <h3>スイング解析</h3>
+        <ul>
+          <li>リードアーム、X-ファクター、背骨の傾き、膝の屈曲を追跡</li>
+          <li>6フェーズのスイング検出：アドレスからフォロースルーまで</li>
+          <li>Tiger、Rory、Morikawaのスイングと比較</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how">
+  <div class="section-inner">
+    <p class="section-label">かんたん3ステップ</p>
+    <h2 class="section-title">使い方</h2>
+    <p class="section-desc">撮影からフィードバックまで3ステップ。セットアップ不要、センサー不要、待ち時間なし。</p>
+    <div class="steps-grid">
+      <div class="step fade-in">
+        <span class="step-icon">&#127909;</span>
+        <div class="step-num">1</div>
+        <h3>シュートやスイングを撮影</h3>
+        <p>ライブカメラで撮影するか、動画を読み込むだけ。縦横どちらでもOK。</p>
+      </div>
+      <div class="step fade-in">
+        <span class="step-icon">&#128208;</span>
+        <div class="step-num">2</div>
+        <h3>AIが全ての角度を計測</h3>
+        <p>デバイス上のコンピュータビジョンがスケルトンを検出し、関節の角度をリアルタイムで計算。</p>
+      </div>
+      <div class="step fade-in">
+        <span class="step-icon">&#129351;</span>
+        <div class="step-num">3</div>
+        <h3>プロレベルのフィードバック</h3>
+        <p>AIコーチングレポートがプロ選手のフォームと比較し、改善ポイントを具体的に指摘。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features" id="features">
+  <div class="section-inner">
+    <p class="section-label">充実の機能</p>
+    <h2 class="section-title">本気のアスリートのために</h2>
+    <p class="section-desc">セッションごとに確実に上達できる機能を揃えました。</p>
+    <div class="feat-grid">
+      <div class="feat fade-in">
+        <span class="feat-icon">&#129516;</span>
+        <h3>リアルタイムスケルトン追跡</h3>
+        <p>19関節のポーズ検出をカラーコードで表示。AIが見ているフォームをそのまま確認。</p>
+      </div>
+      <div class="feat fade-in">
+        <span class="feat-icon">&#129302;</span>
+        <h3>AIコーチングレポート</h3>
+        <p>Gemini搭載のAI解析がタイムスタンプ付きコメンタリーとエビデンスカードを生成。</p>
+      </div>
+      <div class="feat fade-in">
+        <span class="feat-icon">&#127942;</span>
+        <h3>プロ選手との比較</h3>
+        <p>Curry、Tigerなどプロ選手の角度データとサイドバイサイドで比較。</p>
+      </div>
+      <div class="feat fade-in">
+        <span class="feat-icon">&#127916;</span>
+        <h3>動画エクスポート＆共有</h3>
+        <p>スケルトンオーバーレイ付きのデュアルビュークリップをエクスポート。SNSでシェア。</p>
+      </div>
+      <div class="feat fade-in">
+        <span class="feat-icon">&#128200;</span>
+        <h3>統計ダッシュボード</h3>
+        <p>角度のトレンド、セッション履歴、フォームスコアの推移を時系列で追跡。</p>
+      </div>
+      <div class="feat fade-in">
+        <span class="feat-icon">&#128293;</span>
+        <h3>連続記録＆コンボ</h3>
+        <p>セッション連続記録、ショットコンボ、サウンド＆触覚フィードバックでモチベーション維持。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TECH AUTHORITY -->
+<section id="tech">
+  <div class="section-inner">
+    <p class="section-label">技術仕様</p>
+    <h2 class="section-title">信頼できる精度</h2>
+    <p class="section-desc">Apple Vision フレームワークとカスタムモデルで構築。ギミックなし。</p>
+    <div class="tech-grid">
+      <div class="tech-card fade-in">
+        <div class="tech-stat">0.987</div>
+        <p><strong>mAP50 検出精度</strong><br>バスケデータで微調整済みカスタムYOLO11sモデル</p>
+      </div>
+      <div class="tech-card fade-in">
+        <div class="tech-stat">100%</div>
+        <p><strong>デバイス上で処理</strong><br>Apple Vision &amp; CoreMLで動作。データは端末から出ません</p>
+      </div>
+      <div class="tech-card fade-in">
+        <div class="tech-stat">30fps</div>
+        <p><strong>リアルタイム解析</strong><br>カメラのフルフレームレートでスケルトン追跡＆角度計算</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing" id="pricing">
+  <div class="section-inner">
+    <p class="section-label">シンプルな料金</p>
+    <h2 class="section-title">無料で始めて、準備ができたらProへ。</h2>
+    <p class="section-desc">隠れた料金なし。個人情報の収集なし。結果を出すコーチング。</p>
+    <div class="price-grid">
+      <div class="price-card free fade-in">
+        <div class="price-name">無料</div>
+        <div class="price-amount">¥0</div>
+        <p class="price-period">ずっと無料</p>
+        <ul class="price-features">
+          <li>1日5セッションまで</li>
+          <li>ライブカメラ解析</li>
+          <li>リアルタイムスケルトン表示</li>
+          <li>基本的な角度追跡</li>
+          <li>バスケ + ゴルフ</li>
+        </ul>
+        <a href="#" class="price-cta">始める</a>
+      </div>
+      <div class="price-card pro fade-in">
+        <span class="price-badge">おすすめ</span>
+        <div class="price-name">Pro</div>
+        <div class="price-amount">¥800<span>/月</span></div>
+        <p class="price-period">または ¥4,800/年（50%お得）</p>
+        <ul class="price-features">
+          <li>セッション無制限</li>
+          <li>AIコーチングレポート</li>
+          <li>プロ選手との比較</li>
+          <li>動画エクスポート＆共有</li>
+          <li>統計ダッシュボード＆トレンド</li>
+          <li>優先サポート</li>
+        </ul>
+        <a href="#" class="price-cta">Proにアップグレード</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-cta">
+      <a href="#" class="cta-btn">
+        <svg viewBox="0 0 24 24" fill="currentColor" style="width:20px;height:20px"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+        App Storeからダウンロード
+      </a>
+    </div>
+    <div class="footer-links">
+      <a href="https://taichiakimoto.github.io/anglebreaker-site/privacy.html">プライバシーポリシー</a>
+      <a href="https://taichiakimoto.github.io/anglebreaker-site/terms.html">利用規約</a>
+    </div>
+    <p class="footer-copy">&copy; 2026 フォームコーチ</p>
+  </div>
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var els=document.querySelectorAll('.fade-in');
+  if('IntersectionObserver' in window){
+    var obs=new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target)}
+      });
+    },{threshold:0.15,rootMargin:'0px 0px -40px 0px'});
+    els.forEach(function(el){obs.observe(el)});
+  }else{
+    els.forEach(function(el){el.classList.add('visible')});
+  }
+});
+</script>
+</body>
+</html>
